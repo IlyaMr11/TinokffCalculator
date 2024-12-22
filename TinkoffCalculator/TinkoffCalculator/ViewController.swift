@@ -7,13 +7,16 @@
 
 import UIKit
 
+enum CalculationError: Error {
+    case dividedByZero
+}
 enum Operation: String {
     case add = "+"
     case substract = "-"
     case multiply = "X"
     case divdie = "/"
     
-    func calculate(_ number1: Double, _ number2: Double) -> Double {
+    func calculate(_ number1: Double, _ number2: Double) throws -> Double {
         switch self {
         case .add:
             return number1 + number2
@@ -22,6 +25,9 @@ enum Operation: String {
         case .multiply:
             return number1 * number2
         case .divdie:
+            if number2 == 0 {
+                throw CalculationError.dividedByZero
+            }
             return number1 / number2
         }
     }
@@ -89,9 +95,14 @@ class ViewController: UIViewController {
         
         calculationHistory.append(.number(labelNumber))
         
-        let result = calculate()
+        do {
+            let result = try calculate()
+            resultLabel.text = numberFormatter.string(from: NSNumber(value: result))
+        } catch {
+            resultLabel.text = "На ноль не делят"
+        }
         
-        resultLabel.text = numberFormatter.string(from: NSNumber(value: result))
+        
         
         calculationHistory.removeAll()
     }
@@ -101,7 +112,7 @@ class ViewController: UIViewController {
         resetLabel()
     }
     
-    func calculate() -> Double {
+    func calculate() throws-> Double {
         guard case .number(let firstNumber) = calculationHistory.first else { return 0}
         var currentResult = firstNumber
         
@@ -110,7 +121,7 @@ class ViewController: UIViewController {
                   case .number(let number) = calculationHistory[index + 1]
             else { break }
             
-            currentResult = operation.calculate(currentResult, number)
+            currentResult = try operation.calculate(currentResult, number)
         }
         return currentResult
     }
