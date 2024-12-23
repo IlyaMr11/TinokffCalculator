@@ -66,12 +66,32 @@ class ViewController: UIViewController {
             return }
         if buttonText == "," && resultLabel.text?.contains(",") == true { return }
         
+        if resultLabel.text == "Ошибка" {
+            resetLabel()
+        }
         
         if resultLabel.text == "0" {
             resultLabel.text = buttonText
         } else {
             resultLabel.text?.append(buttonText)
         }
+    }
+    
+    @IBAction func ToHistoryVC(_ sender: Any) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let calculationsListViewController = sb.instantiateViewController(withIdentifier: "CalculationsListViewController")
+        
+        if let vc = calculationsListViewController as? CalculationsListViewController {
+            if calculationHistory.isEmpty {
+                vc.resultText = "Не было вычислений"
+            } else {
+                vc.resultText = resultLabel.text ?? "0"
+            }
+
+        }
+        
+        navigationController?.pushViewController(calculationsListViewController, animated: true)
+        
     }
     
     @IBAction func operationButtonPressed(_ sender: UIButton) {
@@ -99,7 +119,7 @@ class ViewController: UIViewController {
             let result = try calculate()
             resultLabel.text = numberFormatter.string(from: NSNumber(value: result))
         } catch {
-            resultLabel.text = "На ноль не делят"
+            resultLabel.text = "Ошибка"
         }
         
         
