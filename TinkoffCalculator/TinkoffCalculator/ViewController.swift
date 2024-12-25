@@ -52,11 +52,14 @@ class ViewController: UIViewController {
     }()
     
     var calculationHistory: [CalculationHistoryItem] = []
+    var calculations: [Calculation] = []
+    let calculationHistoryStorage = CalculationHistoryStorage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         resetLabel()
+        calculations = calculationHistoryStorage.loadHistory()
     }
     
     
@@ -82,11 +85,7 @@ class ViewController: UIViewController {
         let calculationsListViewController = sb.instantiateViewController(withIdentifier: "CalculationsListViewController")
         
         if let vc = calculationsListViewController as? CalculationsListViewController {
-            if calculationHistory.isEmpty {
-                vc.resultText = "Не было вычислений"
-            } else {
-                vc.resultText = resultLabel.text ?? "0"
-            }
+            vc.calculations = calculations
 
         }
         
@@ -98,7 +97,6 @@ class ViewController: UIViewController {
         guard let buttonText = sender.titleLabel?.text,
             let buttonOperation = Operation(rawValue: buttonText) else {
             return }
-        
         
         guard let labelText = resultLabel.text,
               let labelNumber = numberFormatter.number(from: labelText)?.doubleValue else {return}
@@ -117,7 +115,11 @@ class ViewController: UIViewController {
         
         do {
             let result = try calculate()
+            let newCalculation = Calculation(expression: calculationHistory, result: result)
             resultLabel.text = numberFormatter.string(from: NSNumber(value: result))
+            calculations.append(newCalculation)
+            calculationHistoryStorage.setHistory(calculation: calculations)
+            
         } catch {
             resultLabel.text = "Ошибка"
         }

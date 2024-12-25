@@ -3,7 +3,6 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -347,48 +346,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Результат: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZkD-88-g8f">
-                                <rect key="frame" x="127.33333333333333" y="334" width="138.66666666666669" height="33.666666666666686"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <color key="textColor" systemColor="secondarySystemBackgroundColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1i5-33-SW8">
-                                <rect key="frame" x="151.33333333333334" y="567.66666666666663" width="90.666666666666657" height="35"/>
-                                <color key="backgroundColor" systemColor="tableBackgroundColor"/>
-                                <color key="tintColor" name="AccentColor"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Закрыть" cornerStyle="large">
-                                    <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="backToCalculator:" destination="DEp-Br-lWj" eventType="touchUpInside" id="hfQ-Jq-COo"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXr-3o-cJN">
-                                <rect key="frame" x="30" y="397.66666666666669" width="333" height="114.33333333333331"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Iqh-Jf-Io1">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="U6x-DX-3LV"/>
                         <color key="backgroundColor" systemColor="systemCyanColor"/>
                         <constraints>
-                            <constraint firstItem="1i5-33-SW8" firstAttribute="top" secondItem="ZkD-88-g8f" secondAttribute="bottom" constant="200" id="8Cz-5z-6xU"/>
-                            <constraint firstItem="ZkD-88-g8f" firstAttribute="centerY" secondItem="U6x-DX-3LV" secondAttribute="centerY" multiplier="0.8" id="Qdb-uI-R5p"/>
-                            <constraint firstItem="ZkD-88-g8f" firstAttribute="centerX" secondItem="U6x-DX-3LV" secondAttribute="centerX" id="eMK-Zj-GUW"/>
-                            <constraint firstItem="JXr-3o-cJN" firstAttribute="top" secondItem="ZkD-88-g8f" secondAttribute="bottom" constant="30" id="iTf-t6-50C"/>
-                            <constraint firstItem="1i5-33-SW8" firstAttribute="centerX" secondItem="U6x-DX-3LV" secondAttribute="centerX" id="jJS-mc-Gjr"/>
-                            <constraint firstItem="U6x-DX-3LV" firstAttribute="trailing" secondItem="JXr-3o-cJN" secondAttribute="trailing" constant="30" id="tQv-MX-wCg"/>
-                            <constraint firstItem="JXr-3o-cJN" firstAttribute="leading" secondItem="U6x-DX-3LV" secondAttribute="leading" constant="30" id="uMm-c8-V6L"/>
-                            <constraint firstItem="1i5-33-SW8" firstAttribute="top" secondItem="JXr-3o-cJN" secondAttribute="bottom" constant="55.666666666666629" id="xYi-MI-tWP"/>
+                            <constraint firstItem="Iqh-Jf-Io1" firstAttribute="leading" secondItem="U6x-DX-3LV" secondAttribute="leading" id="3Vx-eu-RxT"/>
+                            <constraint firstItem="Iqh-Jf-Io1" firstAttribute="top" secondItem="U6x-DX-3LV" secondAttribute="top" id="3gO-u4-cdi"/>
+                            <constraint firstItem="U6x-DX-3LV" firstAttribute="bottom" secondItem="Iqh-Jf-Io1" secondAttribute="bottom" id="7Hj-1A-so1"/>
+                            <constraint firstAttribute="trailing" secondItem="Iqh-Jf-Io1" secondAttribute="trailing" id="7qs-4f-x9p"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="V0y-TN-21m"/>
                     <connections>
-                        <outlet property="historyResults" destination="ZkD-88-g8f" id="zj0-jd-ebP"/>
-                        <outlet property="label" destination="JXr-3o-cJN" id="A3m-a4-HIj"/>
+                        <outlet property="tableView" destination="Iqh-Jf-Io1" id="YEN-88-D49"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yNU-Fe-QpH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -417,14 +391,8 @@
     <color key="tintColor" systemColor="systemGray6Color"/>
     <resources>
         <image name="clock" catalog="system" width="128" height="123"/>
-        <namedColor name="AccentColor">
-            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="secondarySystemGroupedBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -440,9 +408,6 @@
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="tableBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>
