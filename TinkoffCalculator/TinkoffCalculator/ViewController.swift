@@ -63,6 +63,11 @@ class ViewController: UIViewController {
     }
     
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        calculations = calculationHistoryStorage.loadHistory()
+    }
+    
     
     @IBAction func buttonPressed(_ sender: UIButton) {
         guard let buttonText = sender.titleLabel?.text else {
@@ -81,19 +86,14 @@ class ViewController: UIViewController {
         sender.buttonAnimation()
     }
     
-    @IBAction func ToHistoryVC(_ sender: Any) {
-        let sb = UIStoryboard(name: "Main", bundle: nil)
-        let calculationsListViewController = sb.instantiateViewController(withIdentifier: "CalculationsListViewController")
-        
-        if let vc = calculationsListViewController as? CalculationsListViewController {
-            vc.calculations = calculations
-            vc.title = "История"
-
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "HistoryVC" {
+            if let vc = segue.destination as? CalculationsListViewController {
+                vc.calculations = calculations
+            }
         }
-        
-        navigationController?.pushViewController(calculationsListViewController, animated: true)
-        
     }
+    
     
     @IBAction func operationButtonPressed(_ sender: UIButton) {
         guard let buttonText = sender.titleLabel?.text,
@@ -106,15 +106,17 @@ class ViewController: UIViewController {
         calculationHistory.append(.number(labelNumber))
         calculationHistory.append(.operation(buttonOperation))
         resetLabel()
-        
+        sender.buttonAnimation()
     }
     
-    @IBAction func resultButtonPressed() {
+    @IBAction func resultButtonPressed(_ sender: UIButton) {
+        sender.buttonAnimation()
         guard
             let labelText = resultLabel.text,
             let labelNumber = numberFormatter.number(from: labelText)?.doubleValue else {return}
         
         calculationHistory.append(.number(labelNumber))
+        
         
         do {
             let result = try calculate()
@@ -122,19 +124,17 @@ class ViewController: UIViewController {
             resultLabel.text = numberFormatter.string(from: NSNumber(value: result))
             calculations.append(newCalculation)
             calculationHistoryStorage.setHistory(calculation: calculations)
-            
         } catch {
             resultLabel.text = "Ошибка"
+            resultLabel.labelAnimation()
         }
-        
-        
-        
         calculationHistory.removeAll()
     }
     
-    @IBAction func clearButtonPressed() {
+    @IBAction func clearButtonPressed(_ sender: UIButton) {
         calculationHistory.removeAll()
         resetLabel()
+        sender.buttonAnimation()
     }
     
     func calculate() throws-> Double {
@@ -154,7 +154,6 @@ class ViewController: UIViewController {
     func resetLabel() {
         resultLabel.text = "0"
     }
-    
 }
 
 extension UIButton {
@@ -172,5 +171,16 @@ extension UIButton {
         animationGroup.animations = [scaleAnimation, opacityAnimation]
         
         layer.add(animationGroup, forKey: "grooupAnimation")
+    }
+}
+
+extension UILabel {
+    func labelAnimation() {
+        let positionAnimation = CABasicAnimation(keyPath: "position")
+        positionAnimation.fromValue = CGPoint(x: center.x-5, y: center.y)
+        positionAnimation.toValue = CGPoint(x: center.x, y: center.y)
+        positionAnimation.duration = 0.1
+        positionAnimation.repeatCount = 3
+        layer.add(positionAnimation, forKey: "positionAnimation")
     }
 }

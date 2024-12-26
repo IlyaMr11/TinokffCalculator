@@ -11,6 +11,8 @@ class CalculationsListViewController: UIViewController {
     
         
     var calculations: [Calculation] = []
+    let calculationHistoryStorage = CalculationHistoryStorage()
+   
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -25,6 +27,12 @@ class CalculationsListViewController: UIViewController {
     
     
 
+    @IBAction func clearHsitory(_ sender: Any) {
+        CalculationHistoryStorage.deleteHistory()
+        calculations.removeAll()
+        tableView.reloadData()
+        print(calculations.count)
+    }
     
     
     private func expressionToString(_ expression: [CalculationHistoryItem]) -> String {

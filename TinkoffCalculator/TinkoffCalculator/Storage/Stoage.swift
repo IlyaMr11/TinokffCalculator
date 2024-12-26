@@ -58,6 +58,7 @@ extension CalculationHistoryItem: Codable {
 
 class CalculationHistoryStorage {
     static let calculationHistoryKey = "calculationHistoryKey"
+    
     func setHistory(calculation: [Calculation]) {
         if let encoded = try? JSONEncoder().encode(calculation) {
             UserDefaults.standard.set(encoded, forKey: CalculationHistoryStorage.calculationHistoryKey)
@@ -69,5 +70,10 @@ class CalculationHistoryStorage {
             return (try? JSONDecoder().decode([Calculation].self, from: data)) ?? []
         }
         return []
+    }
+    
+    static func deleteHistory() {
+        UserDefaults.standard.removeObject(forKey: CalculationHistoryStorage.calculationHistoryKey)
+        UserDefaults.standard.synchronize()
     }
 }
