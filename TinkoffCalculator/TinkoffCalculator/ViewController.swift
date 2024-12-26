@@ -78,6 +78,7 @@ class ViewController: UIViewController {
         } else {
             resultLabel.text?.append(buttonText)
         }
+        sender.buttonAnimation()
     }
     
     @IBAction func ToHistoryVC(_ sender: Any) {
@@ -86,6 +87,7 @@ class ViewController: UIViewController {
         
         if let vc = calculationsListViewController as? CalculationsListViewController {
             vc.calculations = calculations
+            vc.title = "История"
 
         }
         
@@ -104,6 +106,7 @@ class ViewController: UIViewController {
         calculationHistory.append(.number(labelNumber))
         calculationHistory.append(.operation(buttonOperation))
         resetLabel()
+        
     }
     
     @IBAction func resultButtonPressed() {
@@ -151,5 +154,23 @@ class ViewController: UIViewController {
     func resetLabel() {
         resultLabel.text = "0"
     }
+    
 }
 
+extension UIButton {
+    func buttonAnimation() {
+        let scaleAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
+        scaleAnimation.values = [1, 0.9, 1]
+        scaleAnimation.keyTimes = [0, 0.3, 1]
+        
+        let opacityAnimation = CAKeyframeAnimation(keyPath: "opacity")
+        opacityAnimation.values = [1, 0.7, 1]
+        opacityAnimation.keyTimes = [0, 0.3, 1]
+        
+        let animationGroup = CAAnimationGroup()
+        animationGroup.duration = 0.5
+        animationGroup.animations = [scaleAnimation, opacityAnimation]
+        
+        layer.add(animationGroup, forKey: "grooupAnimation")
+    }
+}
